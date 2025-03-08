@@ -37,7 +37,7 @@ export default function Home() {
               asChild
             >
               <Link
-                href="https://github.com"
+                href="https://github.com/OscarCordobesNavarro"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -53,7 +53,7 @@ export default function Home() {
               asChild
             >
               <Link
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/oscarcordobesnavarro/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
