@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Github, Linkedin, Hammer } from "lucide-react";
 
-import { Button } from "./components/Button";
+import { Button } from "./components/ui/Button";
+import { GithubIcon } from "./components/icons/GithubIcon";
+import { LinkedinIcon } from "./components/icons/LinkedinIcon";
+import { HammerIcon } from "./components/icons/HammerIcon";
 
 export default function Home() {
   return (
@@ -41,7 +43,7 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Github className="h-5 w-5" />
+                <GithubIcon />
                 <span>GitHub</span>
               </Link>
             </Button>
@@ -57,7 +59,7 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Linkedin className="h-5 w-5" />
+                <LinkedinIcon />
                 <span>LinkedIn</span>
               </Link>
             </Button>
@@ -65,9 +67,9 @@ export default function Home() {
 
           <div className="mt-12 flex justify-center text-gray-500">
             <div className="flex items-center gap-1.5 border-t border-gray-200 pt-4 text-xs">
-              <Hammer className="h-3.5 w-3.5" />
+              <HammerIcon />
               <span>En obras</span>
-              <Hammer className="h-3.5 w-3.5" />
+              <HammerIcon />
             </div>
           </div>
         </div>
