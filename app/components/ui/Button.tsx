@@ -60,16 +60,25 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     // Si asChild es true y children es un único elemento React válido
     if (asChild && React.isValidElement(children)) {
-      return React.cloneElement(children, {
-        ...props,
-        className: cn(
-          baseButtonClass,
-          variantClasses[variant],
-          sizeClasses[size],
-          className
-        ),
-        ref,
-      });
+      // Solución: Usamos type assertion para indicarle a TypeScript que el elemento hijo
+      // acepta la propiedad className y un ref
+      return React.cloneElement(
+        children as React.ReactElement<{
+          className?: string;
+          ref?: React.Ref<HTMLElement>;
+        }>,
+        {
+          ...props,
+          className: cn(
+            baseButtonClass,
+            variantClasses[variant],
+            sizeClasses[size],
+            className,
+            (children.props as { className?: string }).className || ""
+          ),
+          ref,
+        }
+      );
     }
 
     return (
