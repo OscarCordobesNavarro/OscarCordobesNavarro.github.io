@@ -1,29 +1,65 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-body {
-  margin: 0;
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+
+  /* Transición global para que el cambio de tema sea suave en todos los elementos */
+  *,
+  *::before,
+  *::after {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+
+  /* Variables para Modo Oscuro */
+  .dark {
+    --color-background: var(--color-neutral-950);
+    --color-foreground: var(--color-neutral-50);
+
+    --color-primary: var(--color-white);
+    --color-primary-foreground: var(--color-black);
+
+    --color-secondary: var(--color-neutral-900);
+    --color-secondary-foreground: var(--color-neutral-100);
+
+    --color-accent: var(--color-neutral-800);
+    --color-accent-foreground: var(--color-neutral-100);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    margin: 0;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
+
 
 @theme {
   /* Definimos los colores que usa el componente Button */
   --color-primary: var(--color-black);
   --color-primary-foreground: var(--color-white);
+  --color-background: var(--color-white);
+  --color-foreground: var(--color-black);
 
   --color-secondary: var(--color-gray-100);
   --color-secondary-foreground: var(--color-gray-900);
 
+  --color-accent: var(--color-gray-100);
+  --color-accent-foreground: var(--color-neutral-900);
+
   --color-destructive: var(--color-red-600);
   --color-destructive-foreground: var(--color-white);
-
-  --color-accent: var(--color-gray-100);
-  --color-accent-foreground: var(--color-gray-900);
 
   --color-input: var(--color-gray-200);
   --color-ring: var(--color-gray-400);

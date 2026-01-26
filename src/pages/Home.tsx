@@ -1,5 +1,5 @@
 import { Github, Linkedin } from "lucide-react"
-import { Button } from "./ui/Button"
+import { Button } from "../components/ui/Button"
 import { SITE_DATA } from "../lib/constants"
 
 // Mapeamos los strings de constantes a componentes reales de Lucide
@@ -8,11 +8,11 @@ const ICONS = {
     linkedin: Linkedin,
 }
 
-export default function Hero() {
+export default function Home() {
     return (
         <div className="flex flex-col items-start w-full max-w-4xl">
             {/* Tu componente de imagen que ya tenías */}
-            <div className="rounded-full border border-black w-32 h-32 flex items-center justify-center overflow-hidden">
+            <div className="rounded-full border border-foreground w-32 h-32 flex items-center justify-center overflow-hidden">
                 <img src="/icon.svg" alt="Icono personal" />
             </div>
 
@@ -21,7 +21,7 @@ export default function Hero() {
                     Hola, soy
                 </p>
 
-                <h1 className="text-[1.65rem] min-[390px]:text-3xl sm:text-5xl md:text-6xl font-bold text-black leading-[1.1] text-balance">
+                <h1 className="text-[1.65rem] min-[390px]:text-3xl sm:text-5xl md:text-6xl font-bold text-foreground leading-[1.1] text-balance">
                     {SITE_DATA.name}
                 </h1>
 
