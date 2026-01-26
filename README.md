@@ -1,73 +1,89 @@
-# React + TypeScript + Vite
+# Óscar Cordobés Navarro - Personal Portfolio 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+¡Bienvenido a mi portfolio personal! Este proyecto es una vitrina de mi trabajo, habilidades y trayectoria como Ingeniero Informático. Diseñado con una estética minimalista, moderna y optimizada para la mejor experiencia de usuario.
 
-Currently, two official plugins are available:
+✨ **[Ver sitio en vivo](https://OscarCordobesNavarro.github.io)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+Este proyecto ha sido construido utilizando las últimas tecnologías en desarrollo web frontend:
 
-## Expanding the ESLint configuration
+- **Framework:** [React 19](https://react.dev/)
+- **Bundler:** [Vite](https://vitejs.dev/)
+- **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
+- **Estilos:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **Animaciones:** [Framer Motion](https://www.framer.com/motion/)
+- **Iconos:** [Lucide React](https://lucide.dev/) & [Simple Icons](https://simpleicons.org/)
+- **Enrutado:** React Router (Structure prepared for One-Page)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🌟 Características Principales
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Diseño Responsive:** Adaptado perfectamente a móviles, tablets y escritorio.
+- **Modo Oscuro/Claro:** Sistema de temas integrado con detección automática de preferencias del sistema y transiciones suaves.
+- **Arquitectura Limpia:** Separación de datos y vista mediante un archivo central de constantes (`src/lib/constants.ts`).
+- **Animaciones Premium:** 
+  - Saludo interactivo del avatar al entrar en vista.
+  - Marquee (marquesina) infinita de tecnologías.
+  - Tarjeta de contacto interactiva con efecto de inclinación 3D (Tilt).
+- **Optimización de Recursos:** Uso de imágenes en formato **WebP** para una carga ultrarrápida.
+- **Interactividad:** Funcionalidad de "copiar al portapapeles" en la información de contacto.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 📂 Estructura del Proyecto
+
+```text
+├── src/
+│   ├── components/
+│   │   └── ui/         # Componentes base (Button, Navbar, Marquee, etc.)
+│   ├── lib/
+│   │   └── constants.ts # Datos maestros del sitio (Nombre, Bio, Enlaces)
+│   ├── pages/          # Secciones de la página (Home, About, Contact)
+│   ├── App.tsx         # Orquestador principal de secciones
+│   └── index.css       # Configuración global de Tailwind v4 y Variables de Tema
+├── public/             # Imágenes y assets optimizados
+└── README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🚀 Instalación y Desarrollo
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Sigue estos pasos para ejecutar el proyecto localmente:
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/OscarCordobesNavarro/OscarCordobesNavarro.github.io.git
+   ```
+
+2. **Instalar dependencias:**
+   ```bash
+   npm install
+   ```
+
+3. **Iniciar el servidor de desarrollo:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Construir para producción:**
+   ```bash
+   npm run build
+   ```
+
+---
+
+## 🤝 Contacto
+
+Si quieres contactar conmigo para proyectos o colaboraciones:
+
+- **Email:** [contacto@oscarcn.com](mailto:contacto@oscarcn.com)
+- **LinkedIn:** [oscarcordobesnavarro](https://www.linkedin.com/in/oscarcordobesnavarro)
+- **GitHub:** [OscarCordobesNavarro](https://github.com/OscarCordobesNavarro)
+
+---
+Desarrollado con ❤️ por Óscar Cordobés Navarro.
