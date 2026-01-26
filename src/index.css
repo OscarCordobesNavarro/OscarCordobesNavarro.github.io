@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@theme {
+  /* Definimos los colores que usa el componente Button */
+  --color-primary: var(--color-black);
+  --color-primary-foreground: var(--color-white);
+
+  --color-secondary: var(--color-gray-100);
+  --color-secondary-foreground: var(--color-gray-900);
+
+  --color-destructive: var(--color-red-600);
+  --color-destructive-foreground: var(--color-white);
+
+  --color-accent: var(--color-gray-100);
+  --color-accent-foreground: var(--color-gray-900);
+
+  --color-input: var(--color-gray-200);
+  --color-ring: var(--color-gray-400);
+}
