@@ -13,7 +13,11 @@ export default function Home() {
         <div className="flex flex-col items-start w-full max-w-4xl">
             {/* Tu componente de imagen que ya tenías */}
             <div className="rounded-full border border-foreground w-32 h-32 flex items-center justify-center overflow-hidden">
-                <img src="/icon.svg" alt="Icono personal" />
+                <img
+                    src="/icon.webp"
+                    alt="Icono personal"
+                    className="w-full h-full object-contain transition-all duration-300"
+                />
             </div>
 
             <div className="flex flex-col items-start gap-2 w-full">

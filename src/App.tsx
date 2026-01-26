@@ -13,7 +13,7 @@ export default function App() {
         <Home />
       </section>
 
-      <section id="sobre-mi" className="min-h-screen flex items-center justify-center w-full px-6 py-12 bg-gray-50">
+      <section id="sobre-mi" className="min-h-screen flex items-center justify-center w-full px-6 py-12 bg-secondary/30">
         <About />
       </section>
 
