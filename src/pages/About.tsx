@@ -43,7 +43,7 @@ export default function About() {
                             Sobre mí
                         </h2>
                         <p className="text-lg md:text-xl font-medium leading-relaxed text-foreground text-balance italic">
-                            "{SITE_DATA.about}"
+                            {SITE_DATA.about}
                         </p>
                     </motion.div>
                 </div>

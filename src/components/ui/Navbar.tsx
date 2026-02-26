@@ -30,24 +30,27 @@ export default function Navbar() {
     }
 
     return (
-        <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
-            <div className="flex items-center gap-2 px-3 py-2 bg-background/70 backdrop-blur-md border border-gray-200 dark:border-neutral-800 rounded-full shadow-lg shadow-black/5">
-                <Button variant="ghost" size="sm" className="rounded-full" asChild>
+        <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-fit px-4">
+            <div className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-2 bg-background/70 backdrop-blur-md border border-gray-200 dark:border-neutral-800 rounded-full shadow-lg shadow-black/5 mx-auto">
+                <Button variant="ghost" size="sm" className="rounded-full px-2 sm:px-3 text-xs sm:text-sm" asChild>
                     <a href="#">Inicio</a>
                 </Button>
-                <Button variant="ghost" size="sm" className="rounded-full" asChild>
+                <Button variant="ghost" size="sm" className="rounded-full px-2 sm:px-3 text-xs sm:text-sm" asChild>
                     <a href="#sobre-mi">Sobre mí</a>
                 </Button>
-                <Button variant="ghost" size="sm" className="rounded-full" asChild>
+                <Button variant="ghost" size="sm" className="rounded-full px-2 sm:px-3 text-xs sm:text-sm" asChild>
+                    <a href="#proyectos">Proyectos</a>
+                </Button>
+                <Button variant="ghost" size="sm" className="rounded-full px-2 sm:px-3 text-xs sm:text-sm" asChild>
                     <a href="#contacto">Contacto</a>
                 </Button>
 
-                <div className="w-px h-4 bg-gray-200 dark:bg-neutral-800 mx-1" />
+                <div className="w-px h-4 bg-gray-200 dark:bg-neutral-800 mx-0.5 sm:mx-1" />
 
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="rounded-full w-8 h-8"
+                    className="rounded-full w-8 h-8 flex-shrink-0"
                     onClick={toggleTheme}
                 >
                     {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4 text-gray-600" />}
