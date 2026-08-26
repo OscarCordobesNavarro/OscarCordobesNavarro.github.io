@@ -40,6 +40,9 @@ para que el modo oscuro (clase `.dark` en `<html>`) funcione automáticamente.
 
 El toggle de tema (`Navbar.tsx`) agrega/quita la clase `.dark` en `document.documentElement` y
 persiste la preferencia en `localStorage("theme")`, con fallback a `prefers-color-scheme`.
+`index.css` declara `@custom-variant dark (&:where(.dark, .dark *));` para que el variant `dark:`
+de Tailwind v4 reaccione a esa clase (por defecto v4 solo mira `prefers-color-scheme`, no la
+clase manual) — cualquier uso de `dark:` en el repo depende de esa declaración.
 
 ### Escala de opacidad sobre `foreground`
 
@@ -84,6 +87,10 @@ con un ícono de Lucide a juego.
   `rounded-xl`–`rounded-3xl` (incluyendo el custom `rounded-[2.5rem]` de las tarjetas de
   proyecto) en contenedores grandes. No usar `rounded-lg` sin motivo — no aparece en el código
   actual, la escala salta de `md` a `xl`+.
+- Breakpoints: además de los de Tailwind (`sm`/`md`/`lg`...), `index.css` define uno propio,
+  `--breakpoint-xs: 25rem` (400px), dentro del bloque `@theme` — para el fallback de iconos del
+  `Navbar` en pantallas muy estrechas. Usar `xs:`/`max-xs:` si se necesita otro punto de corte por
+  debajo de `sm` en el futuro, en vez de valores arbitrarios sueltos.
 
 ## Componentes base (`src/components/ui/`)
 
@@ -91,9 +98,24 @@ con un ícono de Lucide a juego.
   `default | sm | lg | icon`, soporta `asChild` para renderizar como `<a>` conservando el
   estilo. Antes de crear un botón custom, comprobar si una variante/tamaño ya cubre el caso.
 - **`Navbar`**: pill flotante centrada (`fixed top-6 left-1/2 -translate-x-1/2`, `rounded-full`,
-  `bg-background/70 backdrop-blur-md`), enlaces por ancla (`#sobre-mi`, `#proyectos`,
-  `#contacto`), separador vertical (`w-px h-4 bg-gray-200 dark:bg-neutral-800`) antes del toggle
-  de tema.
+  `bg-background/70 backdrop-blur-md`), enlaces por ancla (`#inicio`, `#sobre-mi`, `#proyectos`,
+  `#contacto`), separador vertical (`w-px h-4 bg-foreground/10`) antes del toggle de tema. Bordes
+  y separadores usan siempre `border-foreground/10` / `bg-foreground/10` (nunca `gray-*`
+  hardcodeado) para que el modo oscuro funcione automáticamente. El link de la sección activa
+  (detectada por scroll-spy con `IntersectionObserver`, línea central del viewport) se marca con
+  una cápsula que se desliza entre links vía `layoutId` compartido de Framer Motion — no un cambio
+  de color de fondo por variante de `Button`. Ver "Cápsula deslizante" en Movimiento, más abajo. El
+  icono Sun/Moon del toggle transiciona con `AnimatePresence` (scale + rotate + opacity, 300ms) en
+  vez de cambiar de golpe. Los botones del navbar fuerzan `!rounded-full` (important modifier) en
+  vez de `rounded-full` a secas: el `Button` base trae `rounded-md` tanto en `baseButtonClass` como
+  en `sizeClasses`, y por cómo Tailwind v4 ordena las reglas en la hoja compilada, `rounded-md`
+  puede ganar la cascada aunque `rounded-full` aparezca después en el `className` — no fiarse del
+  orden de las clases para resolver conflictos de la misma propiedad, usar `!important` cuando haga
+  falta forzarlo. Por debajo de 400px de viewport (breakpoint `xs`, ver Espaciado/Tipografía y
+  `index.css`), cada link cambia su texto por un icono de `lucide-react` (`Home`, `User`,
+  `Briefcase`, `Mail`) para que la píldora quepa en móviles estrechos sin desbordar ni requerir
+  scroll — el `<a>` lleva `aria-label` con el nombre de la sección y el icono `aria-hidden="true"`
+  para que el nombre accesible no dependa de qué variante visual esté activa.
 - **`ProjectModal`**: overlay + panel a pantalla completa en mobile / con márgenes en desktop
   (`fixed inset-0 md:inset-10`), estructura de secciones fija (Hero → Reto → Arquitectura → Stack
   → Decisiones → Galería → Métricas → footer de cierre), cada sección nueva de un proyecto debe
@@ -112,6 +134,17 @@ Patrones consistentes a reutilizar — no inventar timings nuevos sin motivo:
   (ej. grid de proyectos), stagger con `delay: index * 0.1`.
 - **Modal/overlay:** `AnimatePresence` + overlay con fade simple (`opacity 0→1`), panel con
   `opacity/y/scale` y transición `type: "spring", damping: 25, stiffness: 200`.
+- **Cápsula deslizante (`Navbar`):** indicador de estado activo que se mueve entre elementos
+  hermanos compartiendo `layoutId` (shared layout animation), en vez de `AnimatePresence`. Cada
+  elemento seleccionable monta un `motion.span layoutId="navbar-active-pill"` (mismo `layoutId` en
+  todos) `absolute inset-0 -z-10 rounded-full bg-secondary shadow-sm shadow-black/10`, con
+  `transition={{ type: "spring", damping: 25, stiffness: 200 }}` (mismo spring que modal/overlay).
+  El relleno usa `bg-secondary` (no `bg-background`) a propósito: en modo oscuro `--bg` y `--secondary`
+  son casi indistinguibles del fondo si se usa `background`, así que la cápsula necesita el token de
+  "superficie elevada" para notarse en ambos temas. El elemento contenedor necesita `relative` y el
+  contenido (icono/texto) `relative z-10` para quedar por encima de la cápsula. Patrón a reutilizar
+  para cualquier futuro selector tipo tabs/segmented control — no repetir el approach de "bloque de
+  color sólido por variante" que se descartó aquí.
 - **Marquee:** animación lineal continua, `duration: 35`, `ease: "linear"`, `repeat: Infinity`.
 - **Micro-interacciones puntuales:** el saludo del avatar en `About` (rotación en keyframes con
   delay tras la entrada) y el tilt 3D de la tarjeta de contacto (`useMotionValue` + `useSpring` +

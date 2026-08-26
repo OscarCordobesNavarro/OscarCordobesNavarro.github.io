@@ -10,7 +10,7 @@ export default function App() {
     <main className="flex flex-col items-center">
       <Navbar />
 
-      <section className="min-h-screen flex items-center justify-center w-full px-6 py-12">
+      <section id="inicio" className="min-h-screen flex items-center justify-center w-full px-6 py-12">
         <Home />
       </section>
 
@@ -18,7 +18,7 @@ export default function App() {
         <About />
       </section>
 
-      <section className="min-h-screen flex items-center justify-center w-full bg-secondary/10">
+      <section id="proyectos" className="min-h-screen flex items-center justify-center w-full bg-secondary/10">
         <Projects />
       </section>
 
