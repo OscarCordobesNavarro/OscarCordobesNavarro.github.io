@@ -1,11 +1,12 @@
 import { Button } from "./Button"
-import { Sun, Moon, Home, User, Briefcase, Mail } from "lucide-react"
+import { Sun, Moon, Home, User, History, Briefcase, Mail } from "lucide-react"
 import { useState, useEffect } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 
 const NAV_SECTIONS = [
     { id: "inicio", label: "Inicio", href: "#inicio", icon: Home },
     { id: "sobre-mi", label: "Sobre mí", href: "#sobre-mi", icon: User },
+    { id: "experiencia", label: "Experiencia", href: "#experiencia", icon: History },
     { id: "proyectos", label: "Proyectos", href: "#proyectos", icon: Briefcase },
     { id: "contacto", label: "Contacto", href: "#contacto", icon: Mail },
 ] as const

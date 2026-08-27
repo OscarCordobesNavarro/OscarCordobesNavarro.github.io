@@ -1,6 +1,7 @@
 import Home from "./pages/Home"
 import About from "./pages/About"
 import Contact from "./pages/Contact"
+import Experience from "./pages/Experience"
 import Projects from "./pages/Projects"
 import Navbar from "./components/ui/Navbar"
 
@@ -16,6 +17,10 @@ export default function App() {
 
       <section id="sobre-mi" className="min-h-screen flex items-center justify-center w-full px-6 py-12 bg-secondary/30">
         <About />
+      </section>
+
+      <section id="experiencia" className="min-h-screen flex items-center justify-center w-full px-6 py-12">
+        <Experience />
       </section>
 
       <section id="proyectos" className="min-h-screen flex items-center justify-center w-full bg-secondary/10">
