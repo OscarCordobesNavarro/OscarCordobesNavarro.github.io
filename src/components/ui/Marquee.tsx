@@ -7,10 +7,17 @@ interface MarqueeProps {
 // Mapeo selectivo para tecnologías con nombres especiales en Simple Icons
 const TECH_SLUGS: Record<string, string> = {
     "Node.js": "nodedotjs",
-    "Express": "express",
     "C++": "cplusplus",
     "GitHub Actions": "githubactions",
     "SQL": "sqlite", // Usamos SQLite como icono representativo de SQL
+    "Java": "openjdk", // Simple Icons no tiene un icono "java" (nombre reservado por marca)
+}
+
+// Iconos servidos localmente en vez del CDN de Simple Icons, para tecnologías donde su versión
+// actual ahí no es la reconocible (Redis rebrandeó su logo en 2024; aquí se sirve el clásico de
+// capas apiladas, autoalojado en public/icons).
+const LOCAL_ICONS: Record<string, string> = {
+    "Redis": "/icons/redis.svg",
 }
 
 export default function Marquee({ items }: MarqueeProps) {
@@ -28,8 +35,9 @@ export default function Marquee({ items }: MarqueeProps) {
                 {/* Renderizamos la lista dos veces para el loop infinito */}
                 {[...items, ...items].map((item, index) => {
                     const slug = TECH_SLUGS[item] || item.toLowerCase().replace(/ /g, "")
-                    // Usamos el CDN de Simple Icons con filtro de color dinámico
-                    const iconUrl = `https://cdn.simpleicons.org/${slug}/currentColor`
+                    // Usamos el CDN de Simple Icons con filtro de color dinámico, salvo excepciones
+                    // autoalojadas en LOCAL_ICONS
+                    const iconUrl = LOCAL_ICONS[item] ?? `https://cdn.simpleicons.org/${slug}/currentColor`
 
                     return (
                         <div key={index} className="flex items-center gap-4 group/item">

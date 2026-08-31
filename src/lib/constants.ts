@@ -15,8 +15,9 @@ export const SITE_DATA = {
     ],
     about: "¡Hola! soy Óscar, un Ingeniero Informático de Tenerife con la mirada puesta en grandes ideas. Me encanta el desarrollo de software y disfruto con el proceso de construir aplicaciones y aportarles funcionalidad. Soy responsable, curioso por naturaleza y estoy deseando volcar toda mi ilusión en algún proyecto real.",
     technologies: [
-        "TypeScript", "C++", "React", "Express", "Node.js",
-        "Docker", "GitHub Actions", "Git", "SQL", "MongoDB"
+        "TypeScript", "C++", "React", "Node.js",
+        "Docker", "GitHub Actions", "Git", "SQL", "MongoDB",
+        "Java", "Spring Boot", "RabbitMQ", "Redis"
     ],
     contact: {
         email: "contacto@oscarcn.com",
