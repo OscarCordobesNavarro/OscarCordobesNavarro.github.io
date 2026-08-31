@@ -52,7 +52,7 @@ html {
 }
 
 @theme {
-  --breakpoint-xs: 25rem;
+  --breakpoint-xs: 30rem;
   --color-background: var(--bg);
   --color-foreground: var(--fg);
   --color-primary: var(--primary);
