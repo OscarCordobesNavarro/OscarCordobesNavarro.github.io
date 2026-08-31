@@ -32,6 +32,29 @@ const TIMELINE = {
     hoy: 1.9,
 }
 
+// Cada carril vertical se traza (scaleY 0 → 1) igual que las curvas, en vez de estar ya pintado
+// de fondo: arranca justo cuando nace el punto de origen y, en condiciones normales, termina justo
+// cuando aparece el punto (o la curva) al que llega. Cuando ese hueco es muy corto (p. ej. entre
+// finCarrera y hanami8, separados solo 0.1s) se fuerza una duración mínima para que el trazo siga
+// siendo legible — puede terminar de dibujarse un pelín después de que el siguiente punto ya haya
+// aparecido, y no se nota.
+const MIN_LINE_DURATION = 0.35
+const LINE = {
+    finCarrera: { delay: 0, duration: Math.max(TIMELINE.hanami8 - DOT_LEAD, MIN_LINE_DURATION) },
+    hanami8: {
+        delay: Math.max(TIMELINE.hanami8 - DOT_LEAD, 0),
+        duration: Math.max(TIMELINE.forkCurve - Math.max(TIMELINE.hanami8 - DOT_LEAD, 0), MIN_LINE_DURATION),
+    },
+    trunk: { delay: TIMELINE.forkCurve, duration: Math.max(TIMELINE.hoy - TIMELINE.forkCurve, MIN_LINE_DURATION) },
+    colaborativos: {
+        delay: Math.max(TIMELINE.colaborativos - DOT_LEAD, 0),
+        duration: Math.max(
+            TIMELINE.mergeCurve - Math.max(TIMELINE.colaborativos - DOT_LEAD, 0),
+            MIN_LINE_DURATION,
+        ),
+    },
+}
+
 // Tarjeta con filas de "propiedades" al estilo tarjeta de base de datos de Notion: icono de tipo +
 // título, una propiedad (fecha, con icono) y descripción tras un separador sutil. Tarjeta clara
 // con sombra suave en vez de fondo teñido — el detalle está en la estructura, no en un elemento
@@ -84,11 +107,15 @@ function TimelineRow({
     hasEntered,
     delay,
     dotRef,
+    lineDelay,
+    lineDuration,
 }: {
     item: ExperienceItem
     hasEntered: boolean
     delay: number
     dotRef?: RefObject<HTMLSpanElement | null>
+    lineDelay: number
+    lineDuration: number
 }) {
     const [isActive, setIsActive] = useState(false)
     const enterTransitionDone = useRef(false)
@@ -114,7 +141,13 @@ function TimelineRow({
                     }}
                     className={`mt-2 h-3 w-3 shrink-0 rounded-full bg-foreground border-2 border-background ${isActive ? "ring-4 ring-foreground/15" : ""}`}
                 />
-                <span className="flex-1 w-px bg-foreground/15 my-1" />
+                <motion.span
+                    initial={{ scaleY: 0 }}
+                    animate={{ scaleY: hasEntered ? 1 : 0 }}
+                    style={{ transformOrigin: "top" }}
+                    transition={{ duration: lineDuration, ease: "easeInOut", delay: lineDelay }}
+                    className="flex-1 w-px bg-foreground/15 my-1"
+                />
             </div>
             <div className="flex-1 pb-8">
                 <TimelineCard item={item} hasEntered={hasEntered} delay={delay} />
@@ -182,8 +215,20 @@ export default function Experience() {
                     <Connector path={forkPath} hasEntered={hasEntered} delay={TIMELINE.forkCurve} />
                     <Connector path={mergePath} hasEntered={hasEntered} delay={TIMELINE.mergeCurve} />
 
-                    <TimelineRow item={finCarrera} hasEntered={hasEntered} delay={TIMELINE.finCarrera} />
-                    <TimelineRow item={hanami8} hasEntered={hasEntered} delay={TIMELINE.hanami8} />
+                    <TimelineRow
+                        item={finCarrera}
+                        hasEntered={hasEntered}
+                        delay={TIMELINE.finCarrera}
+                        lineDelay={LINE.finCarrera.delay}
+                        lineDuration={LINE.finCarrera.duration}
+                    />
+                    <TimelineRow
+                        item={hanami8}
+                        hasEntered={hasEntered}
+                        delay={TIMELINE.hanami8}
+                        lineDelay={LINE.hanami8.delay}
+                        lineDuration={LINE.hanami8.duration}
+                    />
 
                     {/* Bloque post-bifurcación: el tronco sigue recto hasta el único punto "Hoy" al
                         fondo; la rama fluye en normal flow a la derecha y su propia curva de fusión
@@ -195,14 +240,43 @@ export default function Experience() {
                     <div className="relative">
                         <div className="absolute left-0 top-0 bottom-0 w-6 flex flex-col items-center">
                             <span ref={forkPointRef} className="w-px h-0" />
-                            <span className="flex-1 w-px bg-foreground/15 my-1" />
                             <motion.span
-                                ref={hoyDotRef}
-                                initial={{ scale: 0 }}
-                                animate={{ scale: hasEntered ? 1 : 0 }}
-                                transition={{ duration: 0.4, ease: "easeOut", delay: TIMELINE.hoy }}
-                                className={HOLLOW_DOT}
+                                initial={{ scaleY: 0 }}
+                                animate={{ scaleY: hasEntered ? 1 : 0 }}
+                                style={{ transformOrigin: "top" }}
+                                transition={{ duration: LINE.trunk.duration, ease: "easeInOut", delay: LINE.trunk.delay }}
+                                className="flex-1 w-px bg-foreground/15 my-1"
                             />
+                            <span className="relative flex h-3 w-3 shrink-0 items-center justify-center">
+                                {/* Anillo que late hacia fuera: el hollow dot ya dice "el hilo sigue
+                                    hoy"; el pulso lo remata como un punto vivo, no cerrado. Arranca
+                                    justo cuando el punto termina de aparecer (TIMELINE.hoy + su
+                                    duración de entrada) y se repite indefinidamente. */}
+                                <motion.span
+                                    aria-hidden="true"
+                                    className="absolute inline-flex h-full w-full rounded-full border-2 border-foreground/30"
+                                    initial={{ opacity: 0, scale: 1 }}
+                                    animate={
+                                        hasEntered
+                                            ? { opacity: [0.6, 0], scale: [1, 2.2] }
+                                            : { opacity: 0, scale: 1 }
+                                    }
+                                    transition={{
+                                        duration: 1.8,
+                                        ease: "easeOut",
+                                        repeat: Infinity,
+                                        repeatDelay: 0.6,
+                                        delay: TIMELINE.hoy + 0.4,
+                                    }}
+                                />
+                                <motion.span
+                                    ref={hoyDotRef}
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: hasEntered ? 1 : 0 }}
+                                    transition={{ duration: 0.4, ease: "easeOut", delay: TIMELINE.hoy }}
+                                    className={HOLLOW_DOT}
+                                />
+                            </span>
                         </div>
                         <div className="absolute bottom-0 left-10 md:left-12 flex h-3 items-center">
                             <span className="text-[11px] font-bold uppercase tracking-wider text-foreground/40">
@@ -216,6 +290,8 @@ export default function Experience() {
                                 hasEntered={hasEntered}
                                 delay={TIMELINE.colaborativos}
                                 dotRef={branchDotRef}
+                                lineDelay={LINE.colaborativos.delay}
+                                lineDuration={LINE.colaborativos.duration}
                             />
                             <div className="flex w-6 justify-center">
                                 <span ref={branchEndRef} className="w-px h-0" />
