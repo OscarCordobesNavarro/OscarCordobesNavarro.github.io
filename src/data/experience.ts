@@ -14,7 +14,7 @@ export const EXPERIENCE: ExperienceItem[] = [
         thread: "principal",
         title: "Becario en Hanami8",
         period: "11/03/2026 – 09/08/2026",
-        description: "Incorporación como becario, desarrollando tareas de programación en equipo.",
+        description: "Desarrollo de procesos de negocio para el ERP propietario de la empresa, usado por distintas empresas nacionales: en su versión de escritorio con Visual Basic, VBScript y SQL, y en su versión web con C#, LINQ y JS, ambas trabajando sobre la misma base de datos y con posibilidad de integración con otros ERPs como SAP.",
         status: "cerrado",
     },
     {
@@ -22,7 +22,7 @@ export const EXPERIENCE: ExperienceItem[] = [
         thread: "colaborativa",
         title: "Codesarrollo con otros programadores",
         period: "Enero 2026 – Presente",
-        description: "Codesarrollo de software junto a otros programadores en distintos proyectos, aportando en diseño, arquitectura y buenas prácticas.",
+        description: "Codesarrollo de software junto a otros programadores en proyectos como tiendas online, webapps, aplicaciones móviles y webs para pequeños comercios, encargándome del desarrollo completo, desde el frontend hasta el despliegue.",
         status: "abierto",
     },
 ];
