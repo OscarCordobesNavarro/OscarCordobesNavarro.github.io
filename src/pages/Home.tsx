@@ -21,15 +21,15 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col items-start gap-2 w-full">
-                <p className="mt-8 text-gray-500 text-lg md:text-xl font-medium tracking-tight">
+                <p className="mt-8 text-foreground/60 text-lg md:text-xl font-medium tracking-tight">
                     Hola, soy
                 </p>
 
-                <h1 className="text-[1.65rem] min-[390px]:text-3xl sm:text-5xl md:text-6xl font-bold text-foreground leading-[1.1] text-balance">
+                <h1 className="text-[1.65rem] min-[390px]:text-3xl sm:text-5xl md:text-6xl font-bold font-display text-foreground leading-[1.1] text-balance">
                     {SITE_DATA.name}
                 </h1>
 
-                <p className="text-gray-500 text-lg md:text-xl leading-relaxed text-balance">
+                <p className="text-foreground/60 text-lg md:text-xl leading-relaxed text-balance">
                     {SITE_DATA.role}
                 </p>
             </div>

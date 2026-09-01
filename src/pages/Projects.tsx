@@ -15,7 +15,7 @@ export default function Projects() {
                     <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-foreground/40">
                         Proyectos
                     </h2>
-                    <h3 className="text-3xl md:text-5xl font-bold tracking-tight">
+                    <h3 className="text-3xl md:text-5xl font-bold font-display tracking-tight">
                         Alguno de los proyectos que he ido haciendo para aprender
                     </h3>
                 </div>
@@ -57,7 +57,7 @@ export default function Projects() {
                                 <div className="flex flex-col gap-6 p-4">
                                     <div className="space-y-2">
                                         <div className="flex items-center justify-between">
-                                            <h4 className="text-3xl font-bold group-hover:translate-x-1 transition-transform duration-500 flex items-center gap-2">
+                                            <h4 className="text-3xl font-bold font-display group-hover:translate-x-1 transition-transform duration-500 flex items-center gap-2">
                                                 {project.title}
                                             </h4>
                                             <div className="w-12 h-12 rounded-full border border-foreground/10 flex items-center justify-center group-hover:bg-foreground group-hover:text-background transition-all duration-500">

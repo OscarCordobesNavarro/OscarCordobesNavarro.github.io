@@ -73,10 +73,10 @@ export default function Contact() {
                         {/* Punto Pulsante 'Disponible' */}
                         <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-background border border-foreground/10 px-3 py-1 rounded-full shadow-sm">
                             <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-highlight opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-highlight"></span>
                             </span>
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-highlight-foreground">
                                 Disponible
                             </span>
                         </div>
@@ -84,7 +84,7 @@ export default function Contact() {
 
                     {/* LADO DERECHO: Información Personal */}
                     <div className="flex-1 text-center md:text-left">
-                        <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+                        <h3 className="text-3xl md:text-4xl font-bold font-display text-foreground mb-2">
                             {SITE_DATA.name}
                         </h3>
                         <p className="text-lg text-foreground/60 mb-8 border-b border-foreground/5 pb-6">
@@ -105,7 +105,7 @@ export default function Contact() {
                                 <div className="relative w-5 h-5 flex items-center justify-center">
                                     {copied ? (
                                         <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                                            <Check className="w-5 h-5 text-emerald-500" />
+                                            <Check className="w-5 h-5 text-highlight-foreground" />
                                         </motion.div>
                                     ) : (
                                         <Mail className="w-5 h-5 text-foreground/40 group-hover/email:text-foreground/60" />
