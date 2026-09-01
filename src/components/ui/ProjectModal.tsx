@@ -53,7 +53,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                         {/* Header Fijo */}
                         <div className="flex items-center justify-between p-6 border-b border-foreground/5 bg-background/50 backdrop-blur-md sticky top-0 z-10">
                             <div className="flex items-center gap-4">
-                                <h2 className="text-xl font-bold">{project.title}</h2>
+                                <h2 className="text-xl font-display font-bold">{project.title}</h2>
                                 <div className="hidden md:flex gap-2">
                                     {project.tags.slice(0, 3).map((tag: string) => (
                                         <span key={tag} className="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
@@ -77,7 +77,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                                 {/* SECCIÓN 1: Hero del Proyecto de Estudio */}
                                 <header className="space-y-6">
                                     <div className="space-y-2">
-                                        <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-balance">
+                                        <h1 className="text-4xl md:text-6xl font-display font-bold tracking-tight text-balance">
                                             {project.heroTitle || project.title}
                                         </h1>
                                         <p className="text-xl text-foreground/60 text-balance leading-relaxed">
@@ -214,25 +214,25 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {project.decisions.map((decision: any, i: number) => {
                                             const colors: any = {
-                                                red: "border-red-500/20 bg-red-500/5",
-                                                blue: "border-blue-500/20 bg-blue-500/5",
-                                                yellow: "border-yellow-500/20 bg-yellow-500/5",
-                                                green: "border-green-500/20 bg-green-500/5",
-                                                purple: "border-purple-500/20 bg-purple-500/5",
-                                                orange: "border-orange-500/20 bg-orange-500/5",
-                                                cyan: "border-cyan-500/20 bg-cyan-500/5",
-                                                pink: "border-pink-500/20 bg-pink-500/5",
+                                                red: "border-cat-1/25 bg-cat-1/5",
+                                                blue: "border-cat-2/25 bg-cat-2/5",
+                                                yellow: "border-cat-3/25 bg-cat-3/5",
+                                                green: "border-cat-4/25 bg-cat-4/5",
+                                                purple: "border-cat-5/25 bg-cat-5/5",
+                                                orange: "border-cat-6/25 bg-cat-6/5",
+                                                cyan: "border-cat-7/25 bg-cat-7/5",
+                                                pink: "border-cat-8/25 bg-cat-8/5",
                                                 white: "border-foreground/10 bg-secondary/20"
                                             }
                                             const icons: any = {
-                                                red: <Zap className="w-5 h-5 text-red-500" />,
-                                                blue: <ShieldCheck className="w-5 h-5 text-blue-500" />,
-                                                yellow: <Server className="w-5 h-5 text-yellow-500" />,
-                                                green: <TrendingUp className="w-5 h-5 text-green-500" />,
-                                                purple: <Cpu className="w-5 h-5 text-purple-400" />,
-                                                orange: <Lock className="w-5 h-5 text-orange-500" />,
-                                                cyan: <Share2 className="w-5 h-5 text-cyan-400" />,
-                                                pink: <Layout className="w-5 h-5 text-pink-400" />,
+                                                red: <Zap className="w-5 h-5 text-cat-1" />,
+                                                blue: <ShieldCheck className="w-5 h-5 text-cat-2" />,
+                                                yellow: <Server className="w-5 h-5 text-cat-3" />,
+                                                green: <TrendingUp className="w-5 h-5 text-cat-4" />,
+                                                purple: <Cpu className="w-5 h-5 text-cat-5" />,
+                                                orange: <Lock className="w-5 h-5 text-cat-6" />,
+                                                cyan: <Share2 className="w-5 h-5 text-cat-7" />,
+                                                pink: <Layout className="w-5 h-5 text-cat-8" />,
                                                 white: <Database className="w-5 h-5 text-foreground/60" />
                                             }
                                             return (
