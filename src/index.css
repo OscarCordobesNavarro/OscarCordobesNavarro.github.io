@@ -5,28 +5,67 @@ html {
 }
 
 :root {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  /* ODL-1 · superficie y texto */
+  --bg: oklch(1 0 0);
+  --surface: oklch(0.967 0.003 248);
+  --fg: oklch(0.145 0 0);
+  --muted: oklch(0.531 0 0);
+  --border: oklch(0.925 0 0);
+  --ring: oklch(0.145 0 0);
 
-  /* Theme variables */
-  --bg: #ffffff;
-  --fg: #0a0a0a;
-  --primary: #000000;
-  --primary-fg: #ffffff;
-  --secondary: #f3f4f6;
-  --secondary-fg: #111827;
-  --accent: #f3f4f6;
-  --accent-fg: #171717;
+  /* ODL-1 · semántico (estado, nunca decoración) */
+  --accent: oklch(0.696 0.17 162.48);
+  --accent-text: oklch(0.508 0.118 165.612);
+  --warn: oklch(0.769 0.188 70.08);
+  --warn-text: oklch(0.554 0.135 66.44);
+  --danger: oklch(0.637 0.237 25.331);
+  --danger-text: oklch(0.505 0.213 27.518);
+  --info: oklch(0.623 0.214 259.815);
+  --info-text: oklch(0.488 0.217 264.376);
+
+  /* ODL-1 · categórica (fija en ambos temas, solo para clasificar datos) */
+  --cat-1: oklch(0.637 0.237 25.331); --cat-2: oklch(0.623 0.214 259.815);
+  --cat-3: oklch(0.795 0.184 86.047); --cat-4: oklch(0.723 0.219 149.579);
+  --cat-5: oklch(0.627 0.265 303.9);  --cat-6: oklch(0.705 0.213 47.604);
+  --cat-7: oklch(0.715 0.143 215.221); --cat-8: oklch(0.6 0.249 337.231);
+
+  /* ODL-1 · escalera de opacidad — mecanismo principal de jerarquía */
+  --fg-05: oklch(0.145 0 0 / 0.05); --fg-10: oklch(0.145 0 0 / 0.10);
+  --fg-20: oklch(0.145 0 0 / 0.20); --fg-40: oklch(0.145 0 0 / 0.40);
+  --fg-60: oklch(0.145 0 0 / 0.60); --fg-80: oklch(0.145 0 0 / 0.80);
+
+  /* Compat con las clases shadcn ya usadas en los componentes */
+  --primary: var(--fg);
+  --primary-fg: var(--bg);
+  --secondary: var(--surface);
+  --secondary-fg: var(--fg);
 }
 
 .dark {
-  --bg: #0a0a0a;
-  --fg: #fafafa;
-  --primary: #ffffff;
-  --primary-fg: #000000;
-  --secondary: #171717;
-  --secondary-fg: #f5f5f5;
-  --accent: #262626;
-  --accent-fg: #f5f5f5;
+  --bg: oklch(0.145 0 0);
+  --surface: oklch(0.205 0 0);
+  --fg: oklch(0.985 0 0);
+  --muted: oklch(0.686 0 0);
+  --border: oklch(0.252 0 0);
+  --ring: oklch(0.985 0 0);
+
+  --accent: oklch(0.765 0.177 163.223);
+  --accent-text: oklch(0.765 0.177 163.223);
+  --warn: oklch(0.852 0.199 91.936);
+  --warn-text: oklch(0.852 0.199 91.936);
+  --danger: oklch(0.704 0.191 22.216);
+  --danger-text: oklch(0.704 0.191 22.216);
+  --info: oklch(0.746 0.16 232.661);
+  --info-text: oklch(0.746 0.16 232.661);
+
+  --fg-05: oklch(0.985 0 0 / 0.05); --fg-10: oklch(0.985 0 0 / 0.10);
+  --fg-20: oklch(0.985 0 0 / 0.20); --fg-40: oklch(0.985 0 0 / 0.40);
+  --fg-60: oklch(0.985 0 0 / 0.60); --fg-80: oklch(0.985 0 0 / 0.80);
+
+  --primary: var(--fg);
+  --primary-fg: var(--bg);
+  --secondary: var(--surface);
+  --secondary-fg: var(--fg);
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -53,12 +92,45 @@ html {
 
 @theme {
   --breakpoint-xs: 30rem;
+
+  /* ODL-1 · pareja tipográfica */
+  --font-display: "Sora", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
   --color-background: var(--bg);
   --color-foreground: var(--fg);
+
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-fg);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-fg);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-fg);
+
+  /* Superficie neutra de hover (compat shadcn: bg-accent/text-accent-foreground).
+     No confundir con el acento semántico ODL-1 (--color-highlight) */
+  --color-accent: var(--surface);
+  --color-accent-foreground: var(--fg);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted);
+
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--ring);
+
+  --color-destructive: var(--danger);
+  --color-destructive-foreground: oklch(1 0 0);
+
+  /* Semántico ODL-1: solo para estado o categoría, nunca decoración */
+  --color-highlight: var(--accent);
+  --color-highlight-foreground: var(--accent-text);
+  --color-warn: var(--warn);
+  --color-warn-foreground: var(--warn-text);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-text);
+
+  --color-cat-1: var(--cat-1); --color-cat-2: var(--cat-2);
+  --color-cat-3: var(--cat-3); --color-cat-4: var(--cat-4);
+  --color-cat-5: var(--cat-5); --color-cat-6: var(--cat-6);
+  --color-cat-7: var(--cat-7); --color-cat-8: var(--cat-8);
 }
