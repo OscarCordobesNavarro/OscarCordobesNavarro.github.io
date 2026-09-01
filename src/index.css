@@ -2,6 +2,10 @@
 
 html {
   scroll-behavior: smooth;
+  /* Inter/Sora tienen una x-height menor que la fuente del sistema que
+     se veía antes (San Francisco/Segoe UI): compensamos subiendo la
+     base un paso (16px -> 17px) para que el tamaño percibido no baje */
+  font-size: 106.25%;
 }
 
 :root {

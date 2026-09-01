@@ -80,7 +80,7 @@ function TimelineCard({
                 <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-secondary/50">
                     <Icon className="h-4 w-4 text-foreground/70" />
                 </div>
-                <h4 className="font-bold font-display text-base">{item.title}</h4>
+                <h4 className="font-bold font-display tracking-[-0.01em] text-base">{item.title}</h4>
             </div>
 
             <div className="mt-3 flex items-center gap-1.5 text-foreground/50">

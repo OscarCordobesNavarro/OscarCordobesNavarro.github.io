@@ -84,7 +84,7 @@ export default function Contact() {
 
                     {/* LADO DERECHO: Información Personal */}
                     <div className="flex-1 text-center md:text-left">
-                        <h3 className="text-3xl md:text-4xl font-bold font-display text-foreground mb-2">
+                        <h3 className="text-3xl md:text-4xl font-bold font-display tracking-[-0.02em] text-foreground mb-2">
                             {SITE_DATA.name}
                         </h3>
                         <p className="text-lg text-foreground/60 mb-8 border-b border-foreground/5 pb-6">

@@ -25,7 +25,7 @@ export default function Home() {
                     Hola, soy
                 </p>
 
-                <h1 className="text-[1.65rem] min-[390px]:text-3xl sm:text-5xl md:text-6xl font-bold font-display text-foreground leading-[1.1] text-balance">
+                <h1 className="text-[1.65rem] min-[390px]:text-3xl sm:text-5xl md:text-6xl font-bold font-display tracking-[-0.03em] text-foreground leading-[1.1] text-balance">
                     {SITE_DATA.name}
                 </h1>
 

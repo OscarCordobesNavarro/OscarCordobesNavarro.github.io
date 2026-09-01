@@ -53,7 +53,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                         {/* Header Fijo */}
                         <div className="flex items-center justify-between p-6 border-b border-foreground/5 bg-background/50 backdrop-blur-md sticky top-0 z-10">
                             <div className="flex items-center gap-4">
-                                <h2 className="text-xl font-display font-bold">{project.title}</h2>
+                                <h2 className="text-xl font-display font-bold tracking-[-0.01em]">{project.title}</h2>
                                 <div className="hidden md:flex gap-2">
                                     {project.tags.slice(0, 3).map((tag: string) => (
                                         <span key={tag} className="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
