@@ -80,7 +80,7 @@ function TimelineCard({
                 <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-secondary/50">
                     <Icon className="h-4 w-4 text-foreground/70" />
                 </div>
-                <h4 className="font-bold text-base">{item.title}</h4>
+                <h4 className="font-bold font-display text-base">{item.title}</h4>
             </div>
 
             <div className="mt-3 flex items-center gap-1.5 text-foreground/50">
@@ -201,7 +201,7 @@ export default function Experience() {
                     <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-foreground/40">
                         Experiencia
                     </h2>
-                    <h3 className="text-3xl md:text-5xl font-bold tracking-tight text-balance">
+                    <h3 className="text-3xl md:text-5xl font-bold font-display tracking-tight text-balance">
                         Un vistazo a mi trayectoria
                     </h3>
                 </div>
