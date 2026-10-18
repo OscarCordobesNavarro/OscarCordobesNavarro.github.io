@@ -18,6 +18,14 @@ export const EXPERIENCE: ExperienceItem[] = [
         status: "cerrado",
     },
     {
+        id: "eturia",
+        thread: "principal",
+        title: "Desarrollador de Software en Eturia",
+        period: "Octubre 2026 – Presente",
+        description: "Desarrollador de software en proyectos de SAP Commerce (Hybris), con Java y Spring Boot como stack principal.",
+        status: "abierto",
+    },
+    {
         id: "colaborativos",
         thread: "colaborativa",
         title: "Codesarrollo con otros programadores",

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
-import { MapPin, Mail, Car, Check } from "lucide-react"
+import { MapPin, Mail, Check } from "lucide-react"
 import { SITE_DATA } from "../lib/constants"
 
 export default function Contact() {
@@ -60,7 +60,7 @@ export default function Contact() {
                     style={{ transform: "translateZ(50px)" }}
                     className="flex flex-col md:flex-row items-center md:items-start gap-12"
                 >
-                    {/* LADO IZQUIERDO: Avatar y Punto Pulsante */}
+                    {/* LADO IZQUIERDO: Avatar */}
                     <div className="relative">
                         <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-foreground/10 overflow-hidden bg-secondary/30">
                             <img
@@ -68,17 +68,6 @@ export default function Contact() {
                                 alt="Óscar Cordobés"
                                 className="w-full h-full object-cover filter grayscale"
                             />
-                        </div>
-
-                        {/* Punto Pulsante 'Disponible' */}
-                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-background border border-foreground/10 px-3 py-1 rounded-full shadow-sm">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-highlight opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-highlight"></span>
-                            </span>
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-highlight-foreground">
-                                Disponible
-                            </span>
                         </div>
                     </div>
 
@@ -115,11 +104,6 @@ export default function Contact() {
                                     {copied ? "¡Copiado!" : SITE_DATA.contact.email}
                                 </span>
                             </button>
-
-                            <div className="flex items-center justify-center md:justify-start gap-3 text-foreground/80">
-                                <Car className="w-5 h-5 text-foreground/40" />
-                                <span className="font-medium">{SITE_DATA.contact.availability}</span>
-                            </div>
                         </div>
                     </div>
                 </div>

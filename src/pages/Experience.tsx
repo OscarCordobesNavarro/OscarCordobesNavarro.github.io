@@ -1,6 +1,6 @@
 import { useRef, useState, type RefObject } from "react"
 import { motion } from "framer-motion"
-import { Calendar, GraduationCap, Building2, Users } from "lucide-react"
+import { Calendar, GraduationCap, Building2, Users, Briefcase } from "lucide-react"
 import { EXPERIENCE } from "../data/experience"
 import type { ExperienceItem } from "../types/experience"
 import { useLinkPath } from "../hooks/useLinkPath"
@@ -13,6 +13,7 @@ const HOLLOW_DOT = "w-3 h-3 rounded-full border-2 border-foreground bg-backgroun
 const ITEM_ICON: Record<string, typeof GraduationCap> = {
     "fin-carrera": GraduationCap,
     hanami8: Building2,
+    eturia: Briefcase,
     colaborativos: Users,
 }
 
@@ -29,7 +30,8 @@ const TIMELINE = {
     forkCurve: 0.65,
     colaborativos: 1.05,
     mergeCurve: 1.55,
-    hoy: 1.9,
+    eturia: 1.8,
+    hoy: 2.2,
 }
 
 // Cada carril vertical se traza (scaleY 0 → 1) igual que las curvas, en vez de estar ya pintado
@@ -45,13 +47,20 @@ const LINE = {
         delay: Math.max(TIMELINE.hanami8 - DOT_LEAD, 0),
         duration: Math.max(TIMELINE.forkCurve - Math.max(TIMELINE.hanami8 - DOT_LEAD, 0), MIN_LINE_DURATION),
     },
-    trunk: { delay: TIMELINE.forkCurve, duration: Math.max(TIMELINE.hoy - TIMELINE.forkCurve, MIN_LINE_DURATION) },
+    // Tramo del tronco dentro del bloque de bifurcación: va desde el punto donde nace la rama
+    // hasta donde arranca la fila de Eturia (ya fuera de ese bloque, en flujo normal).
+    trunk: { delay: TIMELINE.forkCurve, duration: Math.max(TIMELINE.eturia - TIMELINE.forkCurve, MIN_LINE_DURATION) },
     colaborativos: {
         delay: Math.max(TIMELINE.colaborativos - DOT_LEAD, 0),
         duration: Math.max(
             TIMELINE.mergeCurve - Math.max(TIMELINE.colaborativos - DOT_LEAD, 0),
             MIN_LINE_DURATION,
         ),
+    },
+    // Línea de la propia fila de Eturia, que conecta su punto con el punto final "Hoy".
+    eturia: {
+        delay: Math.max(TIMELINE.eturia - DOT_LEAD, 0),
+        duration: Math.max(TIMELINE.hoy - Math.max(TIMELINE.eturia - DOT_LEAD, 0), MIN_LINE_DURATION),
     },
 }
 
@@ -179,6 +188,7 @@ function Connector({ path, hasEntered, delay }: { path: string | null; hasEntere
 export default function Experience() {
     const finCarrera = EXPERIENCE.find((item) => item.id === "fin-carrera")!
     const hanami8 = EXPERIENCE.find((item) => item.id === "hanami8")!
+    const eturia = EXPERIENCE.find((item) => item.id === "eturia")!
     const colaborativos = EXPERIENCE.find((item) => item.id === "colaborativos")!
 
     const graphRef = useRef<HTMLDivElement>(null)
@@ -189,10 +199,11 @@ export default function Experience() {
     const branchDotRef = useRef<HTMLSpanElement>(null)
     const forkPath = useLinkPath(graphRef, forkPointRef, branchDotRef)
 
-    // Curva de fusión: del final de la rama de vuelta al único punto "Hoy" compartido.
+    // Curva de fusión: del final de la rama de vuelta al punto donde el tronco retoma con Eturia.
     const branchEndRef = useRef<HTMLSpanElement>(null)
+    const eturiaDotRef = useRef<HTMLSpanElement>(null)
+    const mergePath = useLinkPath(graphRef, branchEndRef, eturiaDotRef)
     const hoyDotRef = useRef<HTMLSpanElement>(null)
-    const mergePath = useLinkPath(graphRef, branchEndRef, hoyDotRef)
 
     return (
         <section className="w-full max-w-6xl px-6 py-24">
@@ -230,13 +241,12 @@ export default function Experience() {
                         lineDuration={LINE.hanami8.duration}
                     />
 
-                    {/* Bloque post-bifurcación: el tronco sigue recto hasta el único punto "Hoy" al
-                        fondo; la rama fluye en normal flow a la derecha y su propia curva de fusión
-                        (mergePath) la reconecta con ese mismo punto. El alto de este bloque lo marca
-                        la rama — el tronco se estira para llegar abajo. El carril del tronco es un
-                        flex-col (línea `flex-1` + punto al final), igual que en TimelineRow: la línea
-                        y el punto son secuenciales, nunca superpuestos, así la línea nunca atraviesa
-                        el punto hueco. */}
+                    {/* Bloque de bifurcación: el tronco sigue recto hasta donde retoma con la fila
+                        de Eturia, justo debajo de este bloque; la rama fluye en normal flow a la
+                        derecha y su propia curva de fusión (mergePath) la reconecta con el punto de
+                        esa fila. El alto de este bloque lo marca la rama — el tronco se estira para
+                        llegar abajo. El carril del tronco es un flex-col (línea `flex-1` + punto al
+                        final), igual que en TimelineRow. */}
                     <div className="relative">
                         <div className="absolute left-0 top-0 bottom-0 w-6 flex flex-col items-center">
                             <span ref={forkPointRef} className="w-px h-0" />
@@ -247,11 +257,39 @@ export default function Experience() {
                                 transition={{ duration: LINE.trunk.duration, ease: "easeInOut", delay: LINE.trunk.delay }}
                                 className="flex-1 w-px bg-foreground/15 my-1"
                             />
+                        </div>
+
+                        <div className="pl-10 md:pl-12 pt-8">
+                            <TimelineRow
+                                item={colaborativos}
+                                hasEntered={hasEntered}
+                                delay={TIMELINE.colaborativos}
+                                dotRef={branchDotRef}
+                                lineDelay={LINE.colaborativos.delay}
+                                lineDuration={LINE.colaborativos.duration}
+                            />
+                            <div className="flex w-6 justify-center">
+                                <span ref={branchEndRef} className="w-px h-0" />
+                            </div>
+                            <div className="h-16" />
+                        </div>
+                    </div>
+
+                    {/* El tronco retoma aquí, ya fusionado con la rama de colaborativos (el punto
+                        de esta fila es el destino de mergePath), y sigue hasta el punto "Hoy". */}
+                    <TimelineRow
+                        item={eturia}
+                        hasEntered={hasEntered}
+                        delay={TIMELINE.eturia}
+                        dotRef={eturiaDotRef}
+                        lineDelay={LINE.eturia.delay}
+                        lineDuration={LINE.eturia.duration}
+                    />
+
+                    {/* Punto final "Hoy": hueco y con pulso, dice "el hilo sigue hoy". */}
+                    <div className="flex items-center gap-4 md:gap-6">
+                        <div className="flex w-6 shrink-0 items-center justify-center">
                             <span className="relative flex h-3 w-3 shrink-0 items-center justify-center">
-                                {/* Anillo que late hacia fuera: el hollow dot ya dice "el hilo sigue
-                                    hoy"; el pulso lo remata como un punto vivo, no cerrado. Arranca
-                                    justo cuando el punto termina de aparecer (TIMELINE.hoy + su
-                                    duración de entrada) y se repite indefinidamente. */}
                                 <motion.span
                                     aria-hidden="true"
                                     className="absolute inline-flex h-full w-full rounded-full border-2 border-foreground/30"
@@ -278,26 +316,9 @@ export default function Experience() {
                                 />
                             </span>
                         </div>
-                        <div className="absolute bottom-0 left-10 md:left-12 flex h-3 items-center">
-                            <span className="text-[11px] font-bold uppercase tracking-wider text-foreground/40">
-                                Hoy
-                            </span>
-                        </div>
-
-                        <div className="pl-10 md:pl-12 pt-8">
-                            <TimelineRow
-                                item={colaborativos}
-                                hasEntered={hasEntered}
-                                delay={TIMELINE.colaborativos}
-                                dotRef={branchDotRef}
-                                lineDelay={LINE.colaborativos.delay}
-                                lineDuration={LINE.colaborativos.duration}
-                            />
-                            <div className="flex w-6 justify-center">
-                                <span ref={branchEndRef} className="w-px h-0" />
-                            </div>
-                            <div className="h-16" />
-                        </div>
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-foreground/40">
+                            Hoy
+                        </span>
                     </div>
                 </motion.div>
             </div>
