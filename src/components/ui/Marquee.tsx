@@ -1,4 +1,5 @@
 import { motion } from "framer-motion"
+import { Coffee } from "lucide-react"
 
 interface MarqueeProps {
     items: string[]
@@ -10,14 +11,20 @@ const TECH_SLUGS: Record<string, string> = {
     "C++": "cplusplus",
     "GitHub Actions": "githubactions",
     "SQL": "sqlite", // Usamos SQLite como icono representativo de SQL
-    "Java": "openjdk", // Simple Icons no tiene un icono "java" (nombre reservado por marca)
 }
 
-// Iconos servidos localmente en vez del CDN de Simple Icons, para tecnologías donde su versión
-// actual ahí no es la reconocible (Redis rebrandeó su logo en 2024; aquí se sirve el clásico de
-// capas apiladas, autoalojado en public/icons).
+// Iconos servidos localmente en vez del CDN, para tecnologías donde su versión ahí no es la
+// reconocible (Redis rebrandeó su logo en 2024; aquí se sirve el clásico de capas apiladas,
+// autoalojado en public/icons).
 const LOCAL_ICONS: Record<string, string> = {
     "Redis": "/icons/redis.svg",
+}
+
+// Tecnologías sin un icono de marca válido en Simple Icons (ej. "Java" está reservado por Oracle
+// y el sustituto "openjdk" es un logo distinto, no reconocible). Para estas usamos un icono de
+// lucide-react ya incluido en el proyecto, en vez de depender de un SVG externo.
+const CUSTOM_ICONS: Record<string, typeof Coffee> = {
+    "Java": Coffee,
 }
 
 export default function Marquee({ items }: MarqueeProps) {
@@ -35,18 +42,30 @@ export default function Marquee({ items }: MarqueeProps) {
                 {/* Renderizamos la lista dos veces para el loop infinito */}
                 {[...items, ...items].map((item, index) => {
                     const slug = TECH_SLUGS[item] || item.toLowerCase().replace(/ /g, "")
-                    // Usamos el CDN de Simple Icons con filtro de color dinámico, salvo excepciones
-                    // autoalojadas en LOCAL_ICONS
-                    const iconUrl = LOCAL_ICONS[item] ?? `https://cdn.simpleicons.org/${slug}/currentColor`
+                    // Servimos los SVG del paquete npm "simple-icons" vía jsDelivr (CDN oficial,
+                    // fiable y no bloqueado por adblockers), salvo excepciones autoalojadas en
+                    // LOCAL_ICONS o resueltas con CUSTOM_ICONS. Vienen en negro sólido; el filtro
+                    // CSS de abajo los desatura y los invierte en modo oscuro.
+                    const iconUrl = LOCAL_ICONS[item] ?? `https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/${slug}.svg`
+                    const CustomIcon = CUSTOM_ICONS[item]
+                    // grayscale desatura cualquier color de marca (incl. el Redis autoalojado) y
+                    // dark:invert voltea el negro a blanco en modo oscuro, para que nunca quede
+                    // negro-sobre-negro al pasar el ratón (antes se usaba contrast-0/hover:contrast-100,
+                    // que revelaba el negro original y lo hacía invisible en modo oscuro).
+                    const iconFilterClasses = "grayscale dark:invert opacity-60 group-hover/item:opacity-100 transition-all duration-300"
 
                     return (
                         <div key={index} className="flex items-center gap-4 group/item">
-                            <img
-                                src={iconUrl}
-                                alt={item}
-                                className="w-6 h-6 md:w-8 md:h-8 opacity-80 group-hover/item:opacity-100 transition-all duration-300 contrast-0 hover:contrast-100 grayscale"
-                                onError={(e) => (e.currentTarget.style.display = 'none')}
-                            />
+                            {CustomIcon ? (
+                                <CustomIcon className={`w-6 h-6 md:w-8 md:h-8 text-foreground ${iconFilterClasses}`} />
+                            ) : (
+                                <img
+                                    src={iconUrl}
+                                    alt={item}
+                                    className={`w-6 h-6 md:w-8 md:h-8 ${iconFilterClasses}`}
+                                    onError={(e) => (e.currentTarget.style.display = 'none')}
+                                />
+                            )}
                             <span
                                 className="text-xs md:text-sm font-bold uppercase tracking-[0.3em] text-foreground/80 group-hover/item:text-foreground transition-colors cursor-default"
                             >
