@@ -14,19 +14,21 @@ const NAV_SECTIONS = [
 type SectionId = (typeof NAV_SECTIONS)[number]["id"]
 
 export default function Navbar() {
-    const [isDark, setIsDark] = useState(false)
+    // El tema se resuelve al montar (estado inicial perezoso) para no provocar un render
+    // extra; el efecto solo sincroniza la clase del <html>, que es un sistema externo.
+    const [isDark, setIsDark] = useState(() => {
+        const storedTheme = localStorage.getItem("theme")
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+        return storedTheme === "dark" || (!storedTheme && prefersDark)
+    })
     const [activeSection, setActiveSection] = useState<SectionId>("inicio")
 
-    // useEffect para inicializar el tema al cargar la página
+    // Sincroniza el tema con el DOM
     useEffect(() => {
-        const isDarkStored = localStorage.getItem("theme") === "dark"
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
-
-        if (isDarkStored || (!localStorage.getItem("theme") && prefersDark)) {
-            setIsDark(true)
+        if (isDark) {
             document.documentElement.classList.add("dark")
         }
-    }, [])
+    }, [isDark])
 
     // Scroll-spy: detecta qué sección está en el centro del viewport
     useEffect(() => {

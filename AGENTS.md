@@ -1,11 +1,9 @@
 # AGENTS.md
 
-Este archivo lo lee cualquier agente que trabaje en este repo: Claude Code (orquestador) y
-OpenCode (implementador delegado vía la skill `opencode-delegate`). La sección 1 es contexto
-general del proyecto — léela primero, sea cual sea el agente. La sección 2 es la política de
-delegación que `opencode-delegate` consulta antes de elegir modelo y alcance de cada tarea.
+Este archivo lo lee cualquier agente que trabaje en este repo. Contiene el contexto general
+del proyecto.
 
-## 1. Contexto del proyecto
+## Contexto del proyecto
 
 ### Qué es esto
 
@@ -64,62 +62,4 @@ iconografía ya establecidos. No inventar un patrón nuevo si `DESIGN.md` ya cub
 - Build (incluye type-check): `npm run build` — corre `tsc -b && vite build`, así que cubre
   el type-check; no existe un script de type-check aislado.
 - Preview de build: `npm run preview`
-- Tests: no hay suite configurada. No asumir ni delegar tareas que dependan de "correr los tests".
-
-## 2. Política de delegación a OpenCode (vía `opencode-delegate`)
-
-El problema que resuelve esta sección: Claude Code consume tokens de la suscripción de Claude
-más rápido de lo que esa suscripción los repone. La idea es que Claude actúe como la "mente
-maestra" — planifica, decide arquitectura, escribe el brief — y delegue la implementación
-mecánica o de alcance acotado a OpenCode, corriendo sobre la suscripción flat-rate de OpenCode Go
-(sin costo por token). Claude sigue siendo quien revisa el diff y hace el commit; nunca cede esa
-responsabilidad.
-
-### Modelos permitidos (flat-rate, sin costo por token)
-
-> Completar con la salida real de `opencode models` / panel de suscripción.
-> No usar ningún modelo fuera de esta lista sin confirmación explícita del humano
-> (riesgo de facturación por token vía OpenRouter u otros proveedores metered).
-
-- `opencode-go/deepseek-v4-flash` — uso: trabajo mecánico y de bajo riesgo (ver abajo)
-- `opencode-go/minimax-m3` — uso: lógica más compleja dentro de lo delegable (ver abajo)
-
-### Qué SÍ delegar a OpenCode
-
-Usar `opencode-go/deepseek-v4-flash` (rápido/barato) para:
-- Renombrar variables, funciones, archivos en todo el repo
-- Migraciones mecánicas (ej. cambiar una librería por otra con API equivalente)
-- Generar tests unitarios repetitivos para código ya diseñado y estable (una vez exista un runner de tests en el repo)
-- Boilerplate: componentes/páginas repetidas, formularios repetidos, secciones con patrón ya establecido (ej. otra `ProjectModal`)
-- Barridos de lint/formato/tipado que no requieren decisiones de diseño
-- Actualizar documentación/comentarios en base a código ya escrito
-
-Usar `opencode-go/minimax-m3` (más capaz, "algo de chicha") para:
-- Refactors medianos con algo de ambigüedad pero alcance acotado y bien descrito
-- Bugs con causa ya identificada por Claude, donde solo falta implementar el fix
-- Features chicas de un solo dominio (ej. una página nueva con su ruta y componente) cuando el diseño
-  ya fue decidido en la conversación con Claude y está completo en el brief
-
-### Qué NO delegar (se queda con Claude directo)
-
-- Diseño de arquitectura o decisiones que afectan varios módulos/dominios (estructura de `src/`, routing, estado global)
-- Debugging exploratorio (causa no identificada aún)
-- Cambios en contenido/datos personales sensibles del portfolio (`SITE_DATA`, textos de "about", información de contacto)
-- Cualquier tarea donde el contexto acumulado de la conversación importa y no se puede
-  resumir por completo en un brief autosuficiente
-- Tareas chicas que Claude resuelve inline en pocos minutos (el overhead de delegar no vale la pena)
-
-### Reglas del brief
-
-- Un brief = una tarea. No mezclar objetivos.
-- Siempre incluir: objetivo, estado actual, qué cambiar, qué NO tocar, los comandos de gates
-  de la sección 1, y el contrato de reporte esperado.
-- Siempre aclarar explícitamente: "No hagas commit, yo reviso y commiteo."
-- Si la tarea no encaja claramente en "SÍ delegar" de arriba, preguntar al humano antes de
-  despachar, no asumir.
-
-### Revisión (recordatorio, ya lo exige la skill)
-
-- Re-correr los gates uno mismo (`npm run lint`, `npm run build`), nunca confiar en el autoreporte de OpenCode.
-- Leer el diff completo contra el brief: sin scope creep, sin faltantes.
-- Commit lo hace Claude, no OpenCode.
+- Tests: no hay suite configurada. No asumir tareas que dependan de "correr los tests".

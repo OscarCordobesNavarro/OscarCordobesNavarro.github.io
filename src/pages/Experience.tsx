@@ -127,7 +127,7 @@ function TimelineRow({
     lineDuration: number
 }) {
     const [isActive, setIsActive] = useState(false)
-    const enterTransitionDone = useRef(false)
+    const [enterTransitionDone, setEnterTransitionDone] = useState(false)
 
     return (
         <div
@@ -141,12 +141,12 @@ function TimelineRow({
                     initial={{ scale: 0 }}
                     animate={{ scale: !hasEntered ? 0 : isActive ? 1.5 : 1 }}
                     transition={
-                        enterTransitionDone.current
+                        enterTransitionDone
                             ? { type: "spring", stiffness: 300, damping: 20 }
                             : { duration: 0.4, ease: "easeOut", delay: Math.max(delay - DOT_LEAD, 0) }
                     }
                     onAnimationComplete={() => {
-                        enterTransitionDone.current = true
+                        setEnterTransitionDone(true)
                     }}
                     className={`mt-2 h-3 w-3 shrink-0 rounded-full bg-foreground border-2 border-background ${isActive ? "ring-4 ring-foreground/15" : ""}`}
                 />
