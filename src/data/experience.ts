@@ -1,7 +1,7 @@
-import type { ExperienceItem } from "../types/experience";
+import type { ExperienceId, ExperienceItem } from "../types/experience";
 
-export const EXPERIENCE: ExperienceItem[] = [
-    {
+export const EXPERIENCE: { [Id in ExperienceId]: ExperienceItem & { id: Id } } = {
+    "fin-carrera": {
         id: "fin-carrera",
         thread: "principal",
         title: "Fin de la carrera",
@@ -9,7 +9,7 @@ export const EXPERIENCE: ExperienceItem[] = [
         description: "Graduado en Ingeniería Informática",
         status: "cerrado",
     },
-    {
+    hanami8: {
         id: "hanami8",
         thread: "principal",
         title: "Becario en Hanami8",
@@ -17,7 +17,7 @@ export const EXPERIENCE: ExperienceItem[] = [
         description: "Desarrollo de procesos de negocio para el ERP propietario de la empresa, usado por distintas empresas nacionales: en su versión de escritorio con Visual Basic, VBScript y SQL, y en su versión web con C#, LINQ y JS, ambas trabajando sobre la misma base de datos y con posibilidad de integración con otros ERPs como SAP.",
         status: "cerrado",
     },
-    {
+    eturia: {
         id: "eturia",
         thread: "principal",
         title: "Desarrollador de Software en Eturia",
@@ -25,7 +25,7 @@ export const EXPERIENCE: ExperienceItem[] = [
         description: "Desarrollador de software en proyectos de SAP Commerce (Hybris), con Java y Spring Boot como stack principal.",
         status: "abierto",
     },
-    {
+    colaborativos: {
         id: "colaborativos",
         thread: "colaborativa",
         title: "Codesarrollo con otros programadores",
@@ -33,4 +33,4 @@ export const EXPERIENCE: ExperienceItem[] = [
         description: "Codesarrollo de software junto a otros programadores en proyectos como tiendas online, webapps, aplicaciones móviles y webs para pequeños comercios, encargándome del desarrollo completo, desde el frontend hasta el despliegue.",
         status: "abierto",
     },
-];
+};

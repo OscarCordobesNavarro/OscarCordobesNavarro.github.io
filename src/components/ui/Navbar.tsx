@@ -1,38 +1,27 @@
 import { Button } from "./Button"
-import { Sun, Moon, Home, User, History, Briefcase, Mail } from "lucide-react"
+import { Sun, Moon } from "lucide-react"
 import { useState, useEffect } from "react"
 import { AnimatePresence, motion } from "framer-motion"
+import { SECTIONS, type SectionId } from "../../sections"
 
-const NAV_SECTIONS = [
-    { id: "inicio", label: "Inicio", href: "#inicio", icon: Home },
-    { id: "sobre-mi", label: "Sobre mí", href: "#sobre-mi", icon: User },
-    { id: "experiencia", label: "Experiencia", href: "#experiencia", icon: History },
-    { id: "proyectos", label: "Proyectos", href: "#proyectos", icon: Briefcase },
-    { id: "contacto", label: "Contacto", href: "#contacto", icon: Mail },
-] as const
-
-type SectionId = (typeof NAV_SECTIONS)[number]["id"]
+// Tema inicial: el guardado en localStorage y, si no hay, la preferencia del sistema
+const getInitialIsDark = () => {
+    const stored = localStorage.getItem("theme")
+    return stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches
+}
 
 export default function Navbar() {
-    // El tema se resuelve al montar (estado inicial perezoso) para no provocar un render
-    // extra; el efecto solo sincroniza la clase del <html>, que es un sistema externo.
-    const [isDark, setIsDark] = useState(() => {
-        const storedTheme = localStorage.getItem("theme")
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
-        return storedTheme === "dark" || (!storedTheme && prefersDark)
-    })
+    const [isDark, setIsDark] = useState(getInitialIsDark)
     const [activeSection, setActiveSection] = useState<SectionId>("inicio")
 
-    // Sincroniza el tema con el DOM
+    // Sincroniza la clase .dark del <html> con el estado del tema
     useEffect(() => {
-        if (isDark) {
-            document.documentElement.classList.add("dark")
-        }
+        document.documentElement.classList.toggle("dark", isDark)
     }, [isDark])
 
     // Scroll-spy: detecta qué sección está en el centro del viewport
     useEffect(() => {
-        const sectionIds = NAV_SECTIONS.map((s) => s.id)
+        const sectionIds = SECTIONS.map((s) => s.id)
         const elements = sectionIds
             .map((id) => document.getElementById(id))
             .filter((el): el is HTMLElement => el !== null)
@@ -64,19 +53,13 @@ export default function Navbar() {
         const newTheme = !isDark
         setIsDark(newTheme)
 
-        if (newTheme) {
-            document.documentElement.classList.add("dark")
-            localStorage.setItem("theme", "dark")
-        } else {
-            document.documentElement.classList.remove("dark")
-            localStorage.setItem("theme", "light")
-        }
+        localStorage.setItem("theme", newTheme ? "dark" : "light")
     }
 
     return (
         <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-fit px-4">
             <div className="flex items-center gap-0.5 xs:gap-1 sm:gap-2 px-2 xs:px-3 py-2 bg-background/70 backdrop-blur-md border border-foreground/10 rounded-full shadow-lg shadow-black/5 mx-auto">
-                {NAV_SECTIONS.map((section) => {
+                {SECTIONS.map((section) => {
                     const isActive = activeSection === section.id
                     const Icon = section.icon
                     return (
@@ -87,7 +70,7 @@ export default function Navbar() {
                             className={`relative !rounded-full px-1.5 xs:px-3 text-xs sm:text-sm ${isActive ? "text-foreground" : "text-foreground/60 hover:text-foreground"}`}
                             asChild
                         >
-                            <a href={section.href} aria-label={section.label}>
+                            <a href={`#${section.id}`} aria-label={section.label}>
                                 {isActive && (
                                     <motion.span
                                         layoutId="navbar-active-pill"

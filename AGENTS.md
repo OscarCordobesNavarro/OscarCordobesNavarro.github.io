@@ -9,7 +9,7 @@ del proyecto.
 
 Portfolio personal de Óscar Cordobés Navarro, publicado en GitHub Pages
 (`OscarCordobesNavarro.github.io`). Sitio estático de una sola página (secciones ancladas:
-Home, Sobre mí, Proyectos, Contacto), sin backend ni base de datos. El contenido "sensible"
+Inicio, Sobre mí, Experiencia, Proyectos, Contacto), sin backend ni base de datos. El contenido "sensible"
 (bio, datos de contacto, listado de proyectos) vive centralizado en código, no en un CMS.
 
 ### Stack
@@ -19,8 +19,8 @@ Home, Sobre mí, Proyectos, Contacto), sin backend ni base de datos. El contenid
   variables de tema en `src/index.css`)
 - **Animaciones:** Framer Motion
 - **Iconos:** lucide-react
-- **Routing:** react-router-dom está instalado pero el sitio es de una sola página con scroll a
-  anclas (`#sobre-mi`, `#contacto`); no asumas rutas multi-página sin confirmarlo primero
+- **Routing:** no hay router; el sitio es de una sola página con scroll a anclas (`#sobre-mi`,
+  `#contacto`). No introducir rutas multi-página sin confirmarlo primero
 - **Sin test runner configurado.** No hay Jest/Vitest/Playwright en el repo todavía.
 
 ### Estructura (`src/`)
@@ -31,16 +31,23 @@ src/
 ├── main.tsx              # entry point
 ├── index.css              # Tailwind v4 + variables de tema (claro/oscuro)
 ├── components/ui/         # componentes base reutilizables (Button, Navbar, Marquee, ProjectModal...)
-├── pages/                 # una "página"/sección por archivo (Home, About, Contact, Projects)
+├── sections/              # una sección de la página por archivo (Home, About, Experience, Projects, Contact)
+│   └── index.ts           # SECTIONS: orden, id de ancla, label e icono — lo leen App y Navbar
 ├── data/projects/         # datos de cada proyecto del portfolio, un archivo por proyecto + index.ts
+├── data/experience.ts     # hitos de la línea de tiempo de Experiencia, indexados por id
+├── hooks/                 # hooks reutilizables (useLinkPath: mide curvas SVG entre dos elementos)
 ├── lib/constants.ts       # SITE_DATA: nombre, bio, enlaces, info de contacto — dato maestro del sitio
-└── types/                 # tipos compartidos (ej. project.ts)
+└── types/                 # tipos compartidos (project.ts, experience.ts)
 ```
 
 Convenciones que ya sigue el código existente:
 
-- Componentes en PascalCase, un componente por archivo, en `components/ui/` o `pages/` según si
-  es reutilizable o es una sección de página.
+- Componentes en PascalCase, un componente por archivo, en `components/ui/` o `sections/` según si
+  es reutilizable o es una sección de la página.
+- Para añadir, quitar o reordenar una sección se toca solo `src/sections/index.ts`: App envuelve
+  cada una en su `<section id>` (la sección no debe declarar su propio `<section>` ni el id).
+- Los ids de Experiencia son un tipo cerrado (`ExperienceId`) porque `Experience.tsx` coloca cada
+  hito a mano en el grafo: un hito nuevo implica tocar tipo, datos y componente.
 - El contenido textual/estructural del sitio (nombre, bio, links, contacto) se centraliza en
   `src/lib/constants.ts` (`SITE_DATA`) — no hardcodear estos datos sueltos en componentes.
 - Los datos de cada proyecto van en `src/data/projects/<Nombre>.ts` y se agregan al índice en
@@ -63,3 +70,5 @@ iconografía ya establecidos. No inventar un patrón nuevo si `DESIGN.md` ya cub
   el type-check; no existe un script de type-check aislado.
 - Preview de build: `npm run preview`
 - Tests: no hay suite configurada. No asumir tareas que dependan de "correr los tests".
+- CI (`.github/workflows/deploy.yml`): `npm ci` → lint → build en cada push y PR a `main`;
+  solo el push a `main` despliega. El lint tiene que pasar o no se publica.

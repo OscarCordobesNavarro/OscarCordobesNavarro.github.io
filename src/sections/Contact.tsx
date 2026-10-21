@@ -40,7 +40,7 @@ export default function Contact() {
     }
 
     return (
-        <section className="w-full flex flex-col items-center py-20 px-6">
+        <div className="w-full flex flex-col items-center py-20 px-6">
             <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-foreground/40 mb-12">
                 Contacto
             </h2>
@@ -112,6 +112,6 @@ export default function Contact() {
                 <div className="absolute -top-24 -right-24 w-64 h-64 bg-secondary/20 rounded-full blur-3xl pointer-events-none" />
                 <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-secondary/20 rounded-full blur-3xl pointer-events-none" />
             </motion.div>
-        </section>
+        </div>
     )
 }

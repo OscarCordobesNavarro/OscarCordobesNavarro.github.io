@@ -16,7 +16,6 @@ Este proyecto ha sido construido utilizando las últimas tecnologías en desarro
 - **Estilos:** [Tailwind CSS v4](https://tailwindcss.com/)
 - **Animaciones:** [Framer Motion](https://www.framer.com/motion/)
 - **Iconos:** [Lucide React](https://lucide.dev/) & [Simple Icons](https://simpleicons.org/)
-- **Enrutado:** React Router (Structure prepared for One-Page)
 
 ---
 
@@ -40,9 +39,12 @@ Este proyecto ha sido construido utilizando las últimas tecnologías en desarro
 ├── src/
 │   ├── components/
 │   │   └── ui/         # Componentes base (Button, Navbar, Marquee, etc.)
+│   ├── data/           # Proyectos y experiencia
+│   ├── hooks/          # Hooks reutilizables (useLinkPath)
 │   ├── lib/
 │   │   └── constants.ts # Datos maestros del sitio (Nombre, Bio, Enlaces)
-│   ├── pages/          # Secciones de la página (Home, About, Contact)
+│   ├── sections/       # Secciones de la página + index.ts con el orden y el menú
+│   ├── types/          # Tipos compartidos
 │   ├── App.tsx         # Orquestador principal de secciones
 │   └── index.css       # Configuración global de Tailwind v4 y Variables de Tema
 ├── public/             # Imágenes y assets optimizados
