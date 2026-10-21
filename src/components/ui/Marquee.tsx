@@ -13,6 +13,10 @@ const TECH_SLUGS: Record<string, string> = {
     "SQL": "sqlite", // Usamos SQLite como icono representativo de SQL
 }
 
+// Versión fijada del paquete en el CDN: con @latest, un cambio de slug o de logo en Simple Icons
+// se colaría en el sitio sin tocar el código. Subirla a mano y revisar el marquee al hacerlo.
+const SIMPLE_ICONS_VERSION = "16.35.0"
+
 // Iconos servidos localmente en vez del CDN, para tecnologías donde su versión ahí no es la
 // reconocible (Redis rebrandeó su logo en 2024; aquí se sirve el clásico de capas apiladas,
 // autoalojado en public/icons).
@@ -46,7 +50,7 @@ export default function Marquee({ items }: MarqueeProps) {
                     // fiable y no bloqueado por adblockers), salvo excepciones autoalojadas en
                     // LOCAL_ICONS o resueltas con CUSTOM_ICONS. Vienen en negro sólido; el filtro
                     // CSS de abajo los desatura y los invierte en modo oscuro.
-                    const iconUrl = LOCAL_ICONS[item] ?? `https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/${slug}.svg`
+                    const iconUrl = LOCAL_ICONS[item] ?? `https://cdn.jsdelivr.net/npm/simple-icons@${SIMPLE_ICONS_VERSION}/icons/${slug}.svg`
                     const CustomIcon = CUSTOM_ICONS[item]
                     // grayscale desatura cualquier color de marca (incl. el Redis autoalojado) y
                     // dark:invert voltea el negro a blanco en modo oscuro, para que nunca quede

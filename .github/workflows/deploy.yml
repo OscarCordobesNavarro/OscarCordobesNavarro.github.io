@@ -2,7 +2,9 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["main"] # O "master", asegúrate de que sea tu rama principal
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -19,22 +21,27 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
 
       - name: Build
         run: npm run build
 
       - name: Upload Artifacts
+        if: github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
   deploy:
     needs: build_site
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

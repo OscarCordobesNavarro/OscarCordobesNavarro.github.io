@@ -2,7 +2,7 @@ import { useRef, useState, type RefObject } from "react"
 import { motion } from "framer-motion"
 import { Calendar, GraduationCap, Building2, Users, Briefcase } from "lucide-react"
 import { EXPERIENCE } from "../data/experience"
-import type { ExperienceItem } from "../types/experience"
+import type { ExperienceId, ExperienceItem } from "../types/experience"
 import { useLinkPath } from "../hooks/useLinkPath"
 
 // Punto hueco: mismo tamaño que los nodos cerrados (bg-foreground), pero sin rellenar — el
@@ -10,7 +10,7 @@ import { useLinkPath } from "../hooks/useLinkPath"
 const HOLLOW_DOT = "w-3 h-3 rounded-full border-2 border-foreground bg-background shrink-0"
 
 // Icono de "página" por tipo de hito — un guiño al icono de página de Notion, no decoración suelta.
-const ITEM_ICON: Record<string, typeof GraduationCap> = {
+const ITEM_ICON: Record<ExperienceId, typeof GraduationCap> = {
     "fin-carrera": GraduationCap,
     hanami8: Building2,
     eturia: Briefcase,
@@ -77,7 +77,7 @@ function TimelineCard({
     hasEntered: boolean
     delay: number
 }) {
-    const Icon = ITEM_ICON[item.id] ?? GraduationCap
+    const Icon = ITEM_ICON[item.id]
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -186,10 +186,7 @@ function Connector({ path, hasEntered, delay }: { path: string | null; hasEntere
 }
 
 export default function Experience() {
-    const finCarrera = EXPERIENCE.find((item) => item.id === "fin-carrera")!
-    const hanami8 = EXPERIENCE.find((item) => item.id === "hanami8")!
-    const eturia = EXPERIENCE.find((item) => item.id === "eturia")!
-    const colaborativos = EXPERIENCE.find((item) => item.id === "colaborativos")!
+    const { "fin-carrera": finCarrera, hanami8, eturia, colaborativos } = EXPERIENCE
 
     const graphRef = useRef<HTMLDivElement>(null)
     const [hasEntered, setHasEntered] = useState(false)
@@ -206,7 +203,7 @@ export default function Experience() {
     const hoyDotRef = useRef<HTMLSpanElement>(null)
 
     return (
-        <section className="w-full max-w-6xl px-6 py-24">
+        <div className="w-full max-w-6xl px-6 py-24">
             <div className="flex flex-col gap-12">
                 <div className="flex flex-col gap-4">
                     <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-foreground/40">
@@ -322,6 +319,6 @@ export default function Experience() {
                     </div>
                 </motion.div>
             </div>
-        </section>
+        </div>
     )
 }
