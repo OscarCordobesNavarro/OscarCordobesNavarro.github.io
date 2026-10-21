@@ -1,4 +1,4 @@
-import { Github, Linkedin } from "lucide-react"
+import { Github, Linkedin } from "../components/ui/BrandIcons"
 import { Button } from "../components/ui/Button"
 import { SITE_DATA } from "../lib/constants"
 

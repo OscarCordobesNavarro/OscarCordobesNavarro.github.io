@@ -1,7 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion"
-import { X, Github, Server, Database, Zap, ShieldCheck, Award, TrendingUp, Cpu, Lock, Share2, Layout } from "lucide-react"
-import { useEffect, useState } from "react"
-import type { Project } from "../../types/project"
+import { X, Server, Database, Zap, ShieldCheck, Award, TrendingUp, Cpu, Lock, Share2, Layout } from "lucide-react"
+import { useEffect, useState, type ReactNode } from "react"
+import { Github } from "./BrandIcons"
+import type { Project, ProjectDecision, ProjectDiagramStep, ProjectMetric, ProjectStackItem } from "../../types/project"
 
 interface ProjectModalProps {
     project: Project | null
@@ -174,7 +175,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                                     {/* Diagrama (opcional, si no hay servicios) */}
                                     {!project.architecture.services && project.architecture.diagram && (
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            {project.architecture.diagram.map((step: any, i: number) => (
+                                            {project.architecture.diagram.map((step: ProjectDiagramStep, i: number) => (
                                                 <div key={i} className="flex items-center gap-4 p-4 bg-background border border-foreground/5 rounded-xl">
                                                     <div className="w-8 h-8 flex items-center justify-center rounded-full bg-foreground/5 font-mono text-xs">0{i + 1}</div>
                                                     <div className="flex-1">
@@ -193,7 +194,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                                     <div className="overflow-x-auto">
                                         <table className="w-full border-collapse">
                                             <tbody className="divide-y divide-foreground/5">
-                                                {project.stack.map((item: any, i: number) => (
+                                                {project.stack.map((item: ProjectStackItem, i: number) => (
                                                     <tr key={i} className="group hover:bg-secondary/30 transition-colors">
                                                         <td className="py-4 pr-8 font-bold text-foreground/40 uppercase text-[10px] tracking-widest w-1/3">
                                                             {item.layer}
@@ -212,8 +213,8 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                                 <section className="space-y-8">
                                     <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/40">Decisiones Técnicas</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        {project.decisions.map((decision: any, i: number) => {
-                                            const colors: any = {
+                                        {project.decisions.map((decision: ProjectDecision, i: number) => {
+                                            const colors: Record<ProjectDecision["color"], string> = {
                                                 red: "border-cat-1/25 bg-cat-1/5",
                                                 blue: "border-cat-2/25 bg-cat-2/5",
                                                 yellow: "border-cat-3/25 bg-cat-3/5",
@@ -224,7 +225,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                                                 pink: "border-cat-8/25 bg-cat-8/5",
                                                 white: "border-foreground/10 bg-secondary/20"
                                             }
-                                            const icons: any = {
+                                            const icons: Record<ProjectDecision["color"], ReactNode> = {
                                                 red: <Zap className="w-5 h-5 text-cat-1" />,
                                                 blue: <ShieldCheck className="w-5 h-5 text-cat-2" />,
                                                 yellow: <Server className="w-5 h-5 text-cat-3" />,
@@ -277,7 +278,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
 
                                 {/* SECCIÓN 7: Métricas */}
                                 <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    {project.metrics.map((metric: any, i: number) => (
+                                    {project.metrics.map((metric: ProjectMetric, i: number) => (
                                         <div key={i} className="p-6 bg-secondary/20 rounded-2xl border border-foreground/5 text-center space-y-1">
                                             <div className="text-3xl font-bold">{metric.value}</div>
                                             <div className="text-[10px] font-bold uppercase tracking-widest text-foreground/40">{metric.label}</div>
